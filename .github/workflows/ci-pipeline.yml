@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'temurin'
+          distribution: 'azul'
           cache: maven
 
       # Step 3: Run your Maven tests.
