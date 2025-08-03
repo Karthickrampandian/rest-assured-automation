@@ -109,7 +109,7 @@
           <toolchains>
             <jdk>
               <version>21</version>
-              <vendor>azul</vendor>
+              <vendor>temurin</vendor>
             </jdk>
           </toolchains>
         </configuration>
