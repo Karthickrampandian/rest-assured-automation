@@ -1,0 +1,50 @@
+# The name of your workflow. This will be shown on GitHub's 'Actions' tab.
+name: Java CI with Maven and Allure
+
+# This defines when the workflow should run.
+# It will trigger automatically on every push to the 'main' branch.
+on:
+  push:
+    branches: [ "main" ]
+
+# A workflow is made up of one or more jobs. This is our main job.
+jobs:
+  build:
+    # This specifies the operating system the job will run on.
+    # 'ubuntu-latest' is a standard Linux environment provided by GitHub.
+    runs-on: ubuntu-latest
+
+    # The individual steps that make up the job.
+    steps:
+
+      # Step 1: Check out your code.
+      # This action clones your repository so the workflow can access your files.
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up the correct Java environment.
+      # This action installs the specific JDK version and caches Maven dependencies.
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # Step 3: Run your Maven tests.
+      # The 'mvn test' command executes all tests in your project.
+      - name: Run Maven Tests
+        run: mvn test
+
+      # Step 4: Build the Allure report.
+      # This command processes the test results and generates a static HTML report.
+      - name: Build Allure Report
+        run: mvn allure:report
+
+      # Step 5: Upload the report as an artifact.
+      # This saves the generated Allure report so you can download and view it from GitHub.
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
